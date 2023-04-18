@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %} {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+    <style>
+        body {
+            background: url(../../../static/img/new.png) rgba(0, 0, 0, 0.6); /* Фоновый цвет и фоновый рисунок*/
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-blend-mode: multiply;
+
+        }
+
+        html {
+            overflow-x: hidden;
+        }
+
+        .TextArea {
+            resize: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            boder: 0;
+        }
+
+        table td {
+            padding: 0;
+            margin: 0;
+        }
+
+    </style>
+</head>
+<body>
+<!--display navbar-->
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
+                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'new' %}">Добавить статью</a>
+                    </li>
+                {% endif %}
+            </ul>
+
+
+            <div class="container d-flex justify-content-center align-items-center" style="width: 600px">
+
+                    <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
+                           name="search">
+                    <button class="btn btn-outline-success" type="submit">Поиск</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</nav>
+<!--display navbar finish-->
+{% block content %}
+
+{% endblock content %}
+<!--display paginator start-->
+
+<!--display paginator finish-->
+
+
+</body>
+</html>
