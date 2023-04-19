@@ -56,7 +56,7 @@
 
 
             <div class="container d-flex justify-content-center align-items-center" style="width: 600px">
-
+                <form class="d-flex" role="search" action="{% url 'home' %}">
                     <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
                            name="search">
                     <button class="btn btn-outline-success" type="submit">Поиск</button>
@@ -71,7 +71,29 @@
 
 {% endblock content %}
 <!--display paginator start-->
-
+{% if page_obj.has_other_pages %}
+    <div class="h-100 d-flex align-items-center justify-content-center" style="padding: 70px">
+        <nav aria-label="...">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&lt;</a>
+                    </li>
+                {% endif %}
+                {% for p in page_obj.paginator.page_range %}
+                    {% if page_obj.number == p %}
+                        <li class="page-item active" aria-current="page"><span class="page-link">{{ p }}</span></li>
+                    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                        <li class="page-item"><a class="page-link" href="?page={{ p }}">{{ p }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&gt;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endif %}
 <!--display paginator finish-->
 
 

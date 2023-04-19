@@ -21,7 +21,7 @@ class News(models.Model):
         super(News, self).save(*args, **kwargs)
 
     def get_url(self):
-        return reverse('blog', args=[self.slug])
+        return reverse('one_post', args=[self.slug])
 
 
 class Category(models.Model):

@@ -4,9 +4,8 @@ from .views import *
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', all_posts, name='home'),
+    path('', get_all_posts, name='home'),
     path('category/<int:category_id>/', get_category, name='category'),
-    path('category/<slug:slug>/', Show_one_post.as_view(), name='blog'),
+    path('category/<slug:slug>/', Show_one_post.as_view(), name='one_post'),
     path('add_post/', add_post, name='new'),
-
 ]

@@ -48,6 +48,7 @@
                             <div class="media-body">
                                 <h5 class="card-title">{{ item.title }}</h5>
                                 <p class="card-text">{{ item.content|safe|linebreaks|truncatewords:50 }}</p>
+                                <a href="{{ item.get_url }}" class="btn btn-primary">Читать далее</a>
                             </div>
                         </div>
                         <div class="card-footer text-muted">

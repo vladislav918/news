@@ -5,7 +5,7 @@ from .forms import CommentForm, NewsForms
 from django.views.generic import DetailView
 
 
-def all_posts(request):
+def get_all_posts(request):
     search_list = request.GET.get('search', '')
     if search_list:
         news = News.objects.filter(
@@ -20,7 +20,7 @@ def all_posts(request):
     page_obj = paginator.get_page(page_number)
 
     content = {
-        'blog': news,
+        'news': news,
         'categories': categories,
         'page_obj': page_obj,
     }
@@ -43,7 +43,7 @@ def get_category(request, category_id):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     content = {
-        'blog': news,
+        'news': news,
         'categories': categories,
         'category': category,
         'page_obj': page_obj,
