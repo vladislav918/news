@@ -4,8 +4,7 @@
 __pycache__/
 local_settings.py
 db.sqlite3
-media
-photos
+/photos
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
