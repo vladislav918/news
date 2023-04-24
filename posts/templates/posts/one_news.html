@@ -1,0 +1,80 @@
+{% extends 'posts/base.html' %}
+
+{% block title %} {{ news.title }} {% endblock %}
+
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <strong> Категория: {{ item.category }}</strong> 
+                            </div>
+                            <div class="col"></div>
+
+                            <div class="col">
+                               {{ news.author }}  <img style="border-radius: 50%" width="50" height="50" src="{{ news.author.avatar.url }}" />                                 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="media">
+                    <img src="{{ news.photo.url }}" class="me-3 float-start" width="350" height="250" alt="">
+                </div>
+                <div class="media-body">
+                    <h5 class="card-title">{{ news.title }}</h5>
+                    <p class="card-text">{{ news.content }}</p>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                {{ item.created }}
+            </div>
+        </div>
+    </div>
+    {% if request.user.is_authenticated %}
+        <div class="section ">
+            <div class="container ">
+                <h2 class="text-white">Comments({{ post_comments_count }})</h2>
+                <div class="row ">
+                    <div class="col-lg-8 mx-auto ">
+                        <!--display coment-->
+                        <div class="media-list">
+                            {% for comment in post_comments %}
+                            <div>
+                                {% if comment.user.avatar %}
+                                    <img class="avatar avatar-sm mr-4" style="border-radius: 50%" width="50" height="50" src="{{ comment.user.avatar.url }}">
+                                {% else %}
+                                    <img class="avatar avatar-sm mr-4" style="border-radius: 50%" width="50" height="50" src="https://media.istockphoto.com/id/1300845620/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C-icon-flat-%D0%B8%D0%B7%D0%BE%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D1%81%D0%B8%D0%BC%D0%B2%D0%BE%D0%BB-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B8%D0%BB%D0%BB%D1%8E%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0.jpg?s=612x612&w=0&k=20&c=Po5TTi0yw6lM7qz6yay5vUbUBy3kAEWrpQmDaUMWnek=">
+
+                                {% endif %}
+                                <div class="media-body">
+                                    <div class="small-1">
+                                        
+                                        <b class="text-white"> {{comment.user}}</b>
+                                        <time class="ml-4 opaciy-70 small-3 text-white"> {{comment.date}}</time>
+                                    </div>
+                                    <p class="text-white"> {{comment.content}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <!--display the form-->
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{form.content}}
+                            </div> 
+                            <button class="btn btn-primary btn-block " type="submit">Comment</button>   
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
