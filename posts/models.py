@@ -1,6 +1,9 @@
 from django.db import models
 from pytils.translit import slugify
 from django.urls import reverse
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 
 class News(models.Model):
@@ -14,6 +17,7 @@ class News(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Опубликован')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
     slug = models.SlugField(default='', null=False)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -33,6 +37,7 @@ class Category(models.Model):
 
 
 class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     post = models.ForeignKey('News', on_delete=models.CASCADE)
     content = models.TextField()

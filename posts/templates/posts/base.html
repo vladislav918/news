@@ -63,12 +63,28 @@
                 </form>
 
             </div>
+            <span class="navbar-text">
+                 {% if request.user.is_authenticated %}
+                     <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <strong>{{ user.username|truncatechars:15 }}</strong>
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          </div>
+                     </div>
+                 {% else %}
+                     <a style="text-decoration: none;" href="{% url 'register' %}">Регистрация</a>
+                     <a style="text-decoration: none;word-spacing: 55px;" href="{% url 'login' %}">Войти</a>
+
+                 {% endif %}
+            </span>
         </div>
     </div>
 </nav>
 <!--display navbar finish-->
 {% block content %}
-
+    
 {% endblock content %}
 <!--display paginator start-->
 {% if page_obj.has_other_pages %}
