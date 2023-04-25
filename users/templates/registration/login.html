@@ -1,7 +1,6 @@
-{% extends 'posts/base.html' %}
+{% extends 'posts\base.html' %}
 
-{% block title %}  Регистрация {% endblock %}
-
+{% block title %} Вход {% endblock %}
 {% block content %}
 
     <form method="post">
@@ -15,8 +14,7 @@
                                 <div class="row justify-content-center">
                                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Регистрация</p>
-
+                                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Вход</p>
                                         <form class="mx-1 mx-md-4">
                                             {% for f in form %}
                                                 <div class="d-flex flex-row align-items-center mb-4">
@@ -28,10 +26,22 @@
                                             {% endfor %}
 
                                             <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                <button type="submit" class="btn btn-primary btn-lg">
-                                                    Зарегистрироваться
+                                                <button type="submit" class="btn btn-primary btn-lg">Войти</button>
+                                            </div>                            
+                                            
+                                            <p class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">или продолжите через</p>
+                                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                                <button class="btn btn-outline-info">
+                                                        <i class="fab fa-google"></i>
+                                                        Login with Google
+                                                    </a>
+                                                </button>
+                                                <button class="btn btn-outline-info">
+                                                        Войти через VK
+                                                    </a>
                                                 </button>
                                             </div>
+
                                         </form>
 
                                     </div>

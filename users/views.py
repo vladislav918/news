@@ -1,56 +1,47 @@
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import logout, login, get_user_model
+from django.contrib.auth import login, get_user_model, authenticate
 from django.shortcuts import redirect, render
-from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import UpdateView
 from .forms import RegisterUserForm, LoginUserForm, ChangeProfile
-from django.template.loader import render_to_string
-from django.core.mail import EmailMessage
-from django.contrib.sites.shortcuts import get_current_site
 
 User = get_user_model()
+
+
 # Create your views here.
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
     template_name = 'users/login.html'
 
-    def get_success_url(self):
-        return reverse_lazy('home')
 
+class Register(View):
+    template_name = 'registration/register.html'
 
-def usersignup(request):
-    if request.method == 'POST':
+    def get(self, request):
+        context = {
+            'form': RegisterUserForm()
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
         form = RegisterUserForm(request.POST)
+
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
-            current_site = get_current_site(request)
-            email_subject = 'Activate Your Account'
-            message = render_to_string('users/acc_active_email.html', {
-                'user': user,
-                'domain': current_site.domain,
-            })
-            to_email = form.cleaned_data.get('email')
-            email = EmailMessage(email_subject, message, to=[to_email])
-            email.send()
-            return redirect('email_confirm')
-    else:
-        form = RegisterUserForm()
-    return render(request, 'users/register.html', {'form': form})
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('home')
+        context = {
+            'form': form
+        }
+        return render(request, self.template_name, context)
 
 
-def logout_user(request):
-    logout(request)
-    return redirect('home')
-
-def email_confirm(request):
-    return render(request, 'users/email_confirm.html')
-
-
-class Change_profile(UpdateView):
-    template_name = 'users/change_profile.html'
+class ChangeProfile(UpdateView):
+    template_name = 'registration/change_profile.html'
     form_class = ChangeProfile
     success_url = '/'
     model = User
