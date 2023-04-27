@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+import myEnvVal
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -135,4 +135,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/photos/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'photos')
 
+
 AUTH_USER_MODEL = 'users.User'
+
+myEnvVal.setVar()
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

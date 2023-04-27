@@ -5,8 +5,8 @@
 {% block content %}
 
     <form method="post">
+        {% csrf_token %}
         <section class="vh-100">
-            {% csrf_token %}
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-lg-12 col-xl-11">
@@ -18,6 +18,7 @@
                                         <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Регистрация</p>
 
                                         <form action="{% url 'register' %}" method="post" class="mx-1 mx-md-4">
+                                            {% csrf_token %}
                                             {% for f in form %}
                                                 <div class="d-flex flex-row align-items-center mb-4">
                                                     <i class="fas fa-user fa-lg me-3 fa-fw"></i>
