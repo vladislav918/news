@@ -1,9 +1,9 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetConfirmView
 from django.contrib.auth import login, get_user_model
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import UpdateView
-from .forms import RegisterUserForm, LoginUserForm, ChangeProfile
+from .forms import RegisterUserForm, LoginUserForm, ChangeProfile, MySetPasswordForm
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -13,6 +13,11 @@ from django.core.mail import EmailMessage
 from django.http import HttpResponse
 
 User = get_user_model()
+
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = MySetPasswordForm
+    template_name = 'registration/password_reset_confirm.html'
 
 
 class LoginUser(LoginView):

@@ -4,6 +4,7 @@
 
 {% block content %}
 <!--display add_post-->
+<div class="overflow-hidden d-flex align-items-center justify-content-center vh-100" >
     <form action="{% url 'new' %}" method="post" enctype="multipart/form-data">
         <section class="vh-100">
             {% csrf_token %}
@@ -80,4 +81,5 @@
             </div>
         </section>
     </form>
+</div>
 {% endblock content %}

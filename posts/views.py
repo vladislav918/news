@@ -61,7 +61,6 @@ def get_category(request, category_id):
 class Show_one_post(DetailView):
     template_name = 'posts/one_news.html'
     model = News
-
     form = CommentForm
 
     def post(self, request, *args, **kwargs):
