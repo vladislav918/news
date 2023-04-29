@@ -3,7 +3,7 @@ from django.contrib.auth import login, get_user_model
 from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import UpdateView
-from .forms import RegisterUserForm, LoginUserForm, ChangeProfile, MySetPasswordForm
+from .forms import RegisterUserForm, LoginUserForm, ChangeProfile, MySetPasswordForm, MySignupForm
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -11,6 +11,7 @@ from .token import account_activation_token
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
 from django.http import HttpResponse
+from allauth.account.views import SignupView
 
 User = get_user_model()
 
@@ -64,7 +65,7 @@ def activate_account(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect("/")
     else:
         return HttpResponse('Activation link is invalid!')
@@ -73,5 +74,10 @@ def activate_account(request, uidb64, token):
 class ChangeProfile(UpdateView):
     template_name = 'registration/change_profile.html'
     form_class = ChangeProfile
-    success_url = 'change_profile'
+    success_url = '/'
     model = User
+
+
+class MySignupView(SignupView):
+    template_name = 'registration/signup_google.html'
+    form_class = MySignupForm

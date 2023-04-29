@@ -1,6 +1,7 @@
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm
 from django import forms
 from django.contrib.auth import get_user_model
+from allauth.account.forms import SignupForm
 
 User = get_user_model()
 
@@ -44,3 +45,22 @@ class MySetPasswordForm(SetPasswordForm):
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Введите новый пароль'}))
     new_password2 = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Повторите пароль'}))
+
+
+class MySignupForm(SignupForm):
+    def __init__(self, *args, **kwargs):
+        super(MySignupForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs.update({'class': 'form-control', 'autocomplete': 'email'})
+        self.fields['password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Повторите пароль'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Введите новый пароль'})
+        self.fields['username'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Введите ваше имя'})
+
+    def save(self, request):
+        user = super(MySignupForm, self).save(request)
+        user.email = self.cleaned_data.get('email')
+        user.username = self.cleaned_data.get('username')
+        user.password1 = self.cleaned_data.get('password1')
+        user.password2 = self.cleaned_data.get('password2')
+        user.save()
+
+        return user

@@ -1,12 +1,12 @@
 {% extends 'posts/base.html' %}
-{% load socialaccount %}
+{% load i18n %}
 
-{% block title %} Вход {% endblock %}
+{% block title %} Регистрация {% endblock %}
+
 {% block content %}
-
-    <form method="post">
-        {% csrf_token %}
-        <section class="vh-100">
+  <h1>{% trans "Sign Up" %}</h1>
+  <form class="signup" method="post" action="{% url 'account_signup' %}">
+     <section class="vh-100">
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-lg-12 col-xl-11">
@@ -15,9 +15,9 @@
                                 <div class="row justify-content-center">
                                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Вход</p>
+                                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Завершение регистрации</p>
 
-                                        <form class="mx-1 mx-md-4">
+                                        <form action="{% url 'register' %}" method="post" class="mx-1 mx-md-4">
                                             {% csrf_token %}
                                             {% for f in form %}
                                                 <div class="d-flex flex-row align-items-center mb-4">
@@ -29,30 +29,16 @@
                                             {% endfor %}
 
                                             <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                <button type="submit" class="btn btn-primary btn-lg">Войти</button>
-                                            </div>
-
-                                             <p class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">или продолжите через</p>
-                                            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                                                <button class="btn btn-outline-info">
-                                                    <a href="{% provider_login_url 'google'%}?next=/">
-                                                        <i class="fab fa-google"></i>
-                                                        Login with Google
-                                                    </a>
-                                                </button>
-                                                <button class="btn btn-outline-info">
-                                                    <a href="{% provider_login_url 'vk'%}">
-                                                        Войти через VK
-                                                    </a>
+                                                <button type="submit" class="btn btn-primary btn-lg">
+                                                    Зарегистрироваться
                                                 </button>
                                             </div>
-
                                         </form>
 
                                     </div>
                                     <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                                        <img src="/photos/system_photo/oblozhka_1664366485-1280x640.jpg"
                                              class="img-fluid" alt="Sample image">
 
                                     </div>
@@ -63,5 +49,5 @@
                 </div>
             </div>
         </section>
-    </form>
+  </form>
 {% endblock %}
