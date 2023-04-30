@@ -1,5 +1,7 @@
-from django.urls import path, include
-from .views import *
+from django.urls import include, re_path, path
+
+from .views import ChangeProfile, LoginUser, \
+    MyPasswordResetConfirmView, MySignupView, Register, activate_account
 
 urlpatterns = [
     path('register/', Register.as_view(), name='register'),

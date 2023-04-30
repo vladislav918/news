@@ -1,7 +1,6 @@
-from django.urls import path, include
-from django.views.generic import TemplateView
-from .views import *
-from django.contrib.auth import views as auth_views
+from django.urls import path
+
+from .views import add_post, get_all_posts, get_category, Show_one_post
 
 urlpatterns = [
     path('', get_all_posts, name='home'),

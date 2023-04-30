@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
-from .models import News, Category, Comment
-from django.core.paginator import Paginator
-from .forms import CommentForm, NewsForms
-from django.views.generic import DetailView
 from django.contrib.auth import get_user_model
+from django.core.paginator import Paginator
+from django.shortcuts import redirect, render
+from django.views.generic import DetailView
+
+from .forms import CommentForm, NewsForms
+from .models import Category, Comment, News
 
 User = get_user_model()
 

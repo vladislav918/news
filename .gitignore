@@ -6,7 +6,7 @@ local_settings.py
 db.sqlite3
 /photos/
 .idea/
-myEnvVal.py
+.env
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*

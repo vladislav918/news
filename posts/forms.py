@@ -1,5 +1,6 @@
 from django import forms
-from .models import News, Comment
+
+from .models import Comment, News
 
 
 class NewsForms(forms.ModelForm):
@@ -7,8 +8,14 @@ class NewsForms(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['category'].empty_label = "Категория не выбрана"
 
-    content = forms.CharField(label="Описание", widget=forms.Textarea(attrs={"class": "TextArea form-control"}))
-    photo = forms.ImageField(label="Фото", widget=forms.FileInput(attrs={'class': 'custom-button form-control'}))
+    content = forms.CharField(
+        label="Описание",
+        widget=forms.Textarea(attrs={"class": "TextArea form-control"})
+    )
+    photo = forms.ImageField(
+        label="Фото",
+        widget=forms.FileInput(attrs={'class': 'custom-button form-control'})
+    )
 
     class Meta:
         model = News

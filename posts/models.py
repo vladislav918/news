@@ -1,9 +1,7 @@
 from django.db import models
-from pytils.translit import slugify
 from django.urls import reverse
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from pytils.translit import slugify
+from users.models import User
 
 
 class News(models.Model):
@@ -12,12 +10,34 @@ class News(models.Model):
         verbose_name='Название'
     )
     content = models.TextField(verbose_name='Контент')
-    created = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    photo = models.ImageField(upload_to='img/', verbose_name='Фото', blank=True)
-    is_published = models.BooleanField(default=True, verbose_name='Опубликован')
-    category = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
-    slug = models.SlugField(default='', null=False)
-    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата создания'
+    )
+    photo = models.ImageField(
+        upload_to='img/',
+        verbose_name='Фото',
+        blank=True
+    )
+    is_published = models.BooleanField(
+        default=True,
+        verbose_name='Опубликован'
+    )
+    category = models.ForeignKey(
+        'Category',
+        on_delete=models.PROTECT,
+        verbose_name='Категория'
+    )
+    slug = models.SlugField(
+        default='',
+        null=False
+    )
+    author = models.ForeignKey(
+        'users.User',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -37,7 +57,7 @@ class Category(models.Model):
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     post = models.ForeignKey('News', on_delete=models.CASCADE)
     content = models.TextField()

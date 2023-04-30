@@ -1,16 +1,18 @@
+from django.contrib.auth import get_user_model, login
 from django.contrib.auth.views import LoginView, PasswordResetConfirmView
-from django.contrib.auth import login, get_user_model
 from django.shortcuts import redirect, render
 from django.views import View
-from django.views.generic import UpdateView
-from .forms import RegisterUserForm, LoginUserForm, ChangeProfile, MySetPasswordForm, MySignupForm
-from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from .token import account_activation_token
-from django.utils.encoding import force_bytes
+from django.template.loader import render_to_string
+from django.views.generic import UpdateView
 from django.core.mail import EmailMessage
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.http import HttpResponse
+from django.utils.encoding import force_bytes
+
+from .forms import ChangeProfile, LoginUserForm, MySetPasswordForm, MySignupForm, RegisterUserForm
+from .token import account_activation_token
+
 from allauth.account.views import SignupView
 
 User = get_user_model()
@@ -23,7 +25,7 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
-    template_name = 'users/login.html'
+    template_name = 'registration/login.html'
 
 
 class Register(View):
@@ -60,12 +62,16 @@ def activate_account(request, uidb64, token):
     try:
         uid = force_bytes(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        login(
+            request,
+            user,
+            backend='django.contrib.auth.backends.ModelBackend'
+        )
         return redirect("/")
     else:
         return HttpResponse('Activation link is invalid!')
