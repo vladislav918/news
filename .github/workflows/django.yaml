@@ -30,5 +30,7 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         USER: ${{ secrets.USER_DB }}
         PASSWORD: ${{ secrets.PASSWORD_DB }}
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
       run: |
         python manage.py test
