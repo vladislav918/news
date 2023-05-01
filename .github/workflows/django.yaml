@@ -28,5 +28,7 @@ jobs:
     - name: Run Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        USER: ${{ secrets.USER_DB }}
+        PASSWORD: ${{ secrets.PASSWORD_DB }}
       run: |
         python manage.py test
