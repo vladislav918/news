@@ -14,6 +14,29 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.9]
+    env:
+        POSTGRES_USER: ${{ secrets.USER_DB }}
+        POSTGRES_PASSWORD: ${{ secrets.PASSWORD_DB }}
+        POSTGRES_DB: news
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: 5432
+        EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+    services:
+      postgres_main:
+        image: postgres:12
+        env:
+          USER: ${{ env.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
@@ -28,9 +51,12 @@ jobs:
     - name: Run Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        USER: ${{ secrets.USER_DB }}
-        PASSWORD: ${{ secrets.PASSWORD_DB }}
         EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
         EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+        DB_USERNAME: ${{ env.POSTGRES_USER }}
+        DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
+        DB_HOST: ${{ env.POSTGRES_HOST }}
+        DB_DATABASE: ${{ env.POSTGRES_DB }}
+        DB_PORT: ${{ env.POSTGRES_PORT }}
       run: |
         python manage.py test
