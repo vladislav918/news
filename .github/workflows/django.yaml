@@ -14,6 +14,16 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.9]
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: ${{ secrets.USER_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.PASSWORD_DB }}
+          POSTGRES_DB: news
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     steps:
     - uses: actions/checkout@v2
@@ -28,9 +38,9 @@ jobs:
     - name: Run Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        USER: ${{ secrets.USER_DB }}
-        PASSWORD: ${{ secrets.PASSWORD_DB }}
         EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+        PASSWORD: ${{ secrets.PASSWORD_DB }}
         EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
+        USER: ${{ secrets.USER_DB }}
       run: |
         python manage.py test

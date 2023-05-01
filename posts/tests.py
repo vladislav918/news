@@ -6,12 +6,10 @@ import django
 
 django.setup()
 from django.contrib.auth import get_user_model
-from posts.forms import CommentForm
 from django.test import TestCase, Client
 from django.urls import reverse
 from posts.models import News, Category, Comment
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.contrib.auth import authenticate
 
 User = get_user_model()
 
