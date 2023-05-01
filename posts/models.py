@@ -47,6 +47,9 @@ class News(models.Model):
     def get_url(self):
         return reverse('one_post', args=[self.slug])
 
+    class Meta:
+        ordering = ['-id']
+
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
