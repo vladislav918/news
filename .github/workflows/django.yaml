@@ -54,7 +54,7 @@ jobs:
         EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
         PASSWORD: ${{ secrets.PASSWORD_DB }}
         EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
-        DB_USERNAME: ${{ env.POSTGRES_USER }}
+        USER: ${{ secrets.USER_DB }}
         DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
         DB_HOST: ${{ env.POSTGRES_HOST }}
         DB_DATABASE: ${{ env.POSTGRES_DB }}
