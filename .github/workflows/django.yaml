@@ -18,7 +18,7 @@ jobs:
         POSTGRES_USER: ${{ secrets.USER_DB }}
         POSTGRES_PASSWORD: ${{ secrets.PASSWORD_DB }}
         POSTGRES_DB: news
-        POSTGRES_HOST: localhost
+        POSTGRES_HOST: '127.0.0.1'
         POSTGRES_PORT: 5432
         EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
         EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
