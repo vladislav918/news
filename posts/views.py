@@ -101,3 +101,12 @@ def add_post(request):
         'posts/new_news.html',
         context={'form': form}
     )
+
+
+def error_404(request, exception):
+    return render(
+        request,
+        'error_page/404.html',
+        {'path': request.path},
+        status=404
+    )

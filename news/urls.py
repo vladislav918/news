@@ -17,12 +17,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls import handler404
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('posts.urls')),
     path('users/', include('users.urls')),
 ]
+
+handler404 = 'posts.views.error_404'
 
 if settings.DEBUG:
     urlpatterns += static(

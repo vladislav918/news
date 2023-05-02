@@ -1,0 +1,11 @@
+{% extends 'posts/base.html' %}
+{% block title %}Ошибка 404{% endblock %}
+{% block content %}
+
+  <div class="overflow-hidden d-flex align-items-center justify-content-center vh-100">
+      <h1>Ошибка 404</h1>
+      <p class="lead">Упс... похоже такой страницы нет:(</p>
+      <p class="lead"><a style="color:black;" href="{% url 'home' %}">Вернуться на главную страницу</a></p>
+  </div>
+
+{% endblock %} 
