@@ -64,18 +64,32 @@ class LoginUserForm(AuthenticationForm):
 
 class ChangeProfile(forms.ModelForm):
     avatar = forms.ImageField(
-        label="Фото",
+        label='Фото',
         widget=forms.FileInput(
             attrs={'class': 'custom-button form-control'}
         )
     )
+    email = forms.CharField(
+        label='email',
+        widget=forms.TextInput(
+            attrs={'class': 'custom-button form-control'}
+        )
+    )
+    username = forms.CharField(
+        label='Имя на сайте',
+        widget=forms.TextInput(
+            attrs={'class': 'custom-button form-control'}
+        )
+    )
     first_name = forms.CharField(
-        widget=forms.PasswordInput(
+        label='Имя',
+        widget=forms.TextInput(
             attrs={'class': 'form-control'}
         )
     )
     last_name = forms.CharField(
-        widget=forms.PasswordInput(
+        label='Фамилия',
+        widget=forms.TextInput(
             attrs={'class': 'form-control'}
         )
     )

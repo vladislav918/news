@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import redirect, render
 from django.views.generic import DetailView
@@ -59,7 +60,7 @@ def get_category(request, category_id):
     )
 
 
-class Show_one_post(DetailView):
+class ShowOnePost(DetailView):
     template_name = 'posts/one_news.html'
     model = News
     form = CommentForm
@@ -71,7 +72,7 @@ class Show_one_post(DetailView):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
-            return redirect('home')
+            return redirect('one_news/')
 
     def get_context_data(self, **kwargs):
         post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
@@ -84,7 +85,7 @@ class Show_one_post(DetailView):
         })
         return context
 
-
+@login_required(login_url='/users/register')
 def add_post(request):
     if request.method == 'POST':
         form = NewsForms(request.POST, request.FILES)

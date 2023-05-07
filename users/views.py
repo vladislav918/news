@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetConfirmView
 from django.shortcuts import redirect, render
 from django.views import View
@@ -9,6 +10,7 @@ from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import ChangeProfile, LoginUserForm, MySetPasswordForm, MySignupForm, RegisterUserForm
 from .token import account_activation_token
@@ -77,7 +79,7 @@ def activate_account(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-class ChangeProfile(UpdateView):
+class ChangeProfile(LoginRequiredMixin, UpdateView):
     template_name = 'registration/change_profile.html'
     form_class = ChangeProfile
     success_url = '/'

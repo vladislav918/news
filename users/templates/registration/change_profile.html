@@ -1,94 +1,51 @@
 {% extends 'posts/base.html' %}
 
 {% block content %}
-    <section style="background-color: #eee;">
-        <div class="container py-5">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="card mb-4">
-                        <div class="card-body text-center">
-                            {% if user.avatar %}
-                                <img width="250" height="250" src="{{ user.avatar.url }}" />
-                            {% else %}
-                                <img class="avatar avatar-sm mr-4" style="border-radius: 50%" width="250" height="250" src="https://media.istockphoto.com/id/1300845620/ru/%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%BD%D0%B0%D1%8F/%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C-icon-flat-%D0%B8%D0%B7%D0%BE%D0%BB%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD-%D0%BD%D0%B0-%D0%B1%D0%B5%D0%BB%D0%BE%D0%BC-%D1%84%D0%BE%D0%BD%D0%B5-%D1%81%D0%B8%D0%BC%D0%B2%D0%BE%D0%BB-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-%D0%B8%D0%BB%D0%BB%D1%8E%D1%81%D1%82%D1%80%D0%B0%D1%86%D0%B8%D1%8F-%D0%B2%D0%B5%D0%BA%D1%82%D0%BE%D1%80%D0%B0.jpg?s=612x612&w=0&k=20&c=Po5TTi0yw6lM7qz6yay5vUbUBy3kAEWrpQmDaUMWnek=">
-                            {% endif %}
-                            <h5 class="my-3"></h5>
-                            <p class="text-muted mb-1">Full Stack Developer</p>
-                            <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
-                            <div class="d-flex justify-content-center mb-2">
-                                <button type="button" class="btn btn-primary">Follow</button>
-                                <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+
+<section class="vh-100">
+    <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card mb-4 card-body text-center">
+                            <div class="card-body text-center">
+                                {% if user.avatar %}
+                                    <img width="250" height="250" src="{{ user.avatar.url }}"/>
+                                {% else %}
+                                    <img class="avatar avatar-sm mr-4" style="border-radius: 50%" width="250" height="250"
+                                        src="/photos/system_photo/istockphoto-1300845620-612x612.jpg">
+                                {% endif %}
+                                <h5 class="my-3"></h5>
+                                <p class="text-muted mb-1">Full Stack Developer</p>
+                                <p class="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                                <div class="d-flex justify-content-center mb-2">
+                                    <button type="button" class="btn btn-primary">Follow</button>
+                                    <button type="button" class="btn btn-outline-primary ms-1">Message</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <form method="post" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">{{ form.username.label }}</p>
+                    <div class="col-lg-8">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <div class="form-outline flex-fill mb-0">
+                                               {{ form.as_p }}
+                                            </div>
+                                        </div>
+                                    <div class="d-flex">
+                                        <button class="btn btn-primary btn-lg" type="submit">Изменить</button>
                                     </div>
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">{{ form.username }}</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">{{ form.email.label }}</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">{{ form.email }}</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">{{ form.first_name.label }}</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">{{ form.first_name }}</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">{{ form.last_name.label }}</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">{{ form.last_name }}</p>
-                                    </div>
-                                <hr>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">Forgot password</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <a href="{% url 'password_reset' %}">Forgot password</a>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p class="mb-0">{{ form.avatar.label }}</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <p class="text-muted mb-0">{{ form.avatar }}</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex">
-                                    <button class="btn btn-primary btn-lg" type="submit">Изменить</button>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}
