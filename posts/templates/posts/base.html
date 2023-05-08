@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
           integrity="sha512-+KvJNtqQsLlD9T+1U6zK2yO9Wv+X5uWJn0zvL2+6C5d9qK6eGcS1V4r5OzZ7T2N6zH8NlH9j4V1sOwGcF1/4IQ=="
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/6fb32c67a4.js" crossorigin="anonymous"></script>
     <style>
         body {
             background: url(../../../static/img/new.png) rgba(0, 0, 0, 0.6); /* Фоновый цвет и фоновый рисунок*/
@@ -77,9 +79,8 @@
                     <strong>{{ user.username|truncatechars:15 }}</strong>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'change_profile' pk=user.id %}">Изменить профиль</a>
-                    <a class="dropdown-item" href="{% url 'password_reset' %}">Изменить пароль</a>
-                    <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                    <a class="dropdown-item" href="{% url 'change_profile' pk=user.id %}"><i class="fas fa-edit fa-2x"></i></a>
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-trash-alt fa-2x"></i></a>
                 </div>
             </div>
             {% else %}

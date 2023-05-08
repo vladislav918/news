@@ -1,4 +1,5 @@
 from django import forms
+from captcha.fields import CaptchaField
 
 from .models import Comment, News
 
@@ -15,6 +16,7 @@ class NewsForms(forms.ModelForm):
                    }
         )
     )
+    captcha = CaptchaField()
     content = forms.CharField(
         widget=forms.Textarea(attrs={'class': 'TextArea form-control', 'placeholder': 'Напишите подробнее'})
     )

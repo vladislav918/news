@@ -37,6 +37,10 @@ class News(models.Model):
         null=True,
         blank=True
     )
+    likes = models.ManyToManyField('users.User', related_name='blogpost_like')
+
+    def number_of_likes(self):
+        return self.likes.count()
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -63,6 +67,7 @@ class Comment(models.Model):
     date = models.DateField(auto_now_add=True)
     post = models.ForeignKey('News', on_delete=models.CASCADE)
     content = models.TextField()
+    parent = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user

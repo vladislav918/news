@@ -19,9 +19,9 @@
                                         {% if form.errors %}
                                         <div class="alert alert-danger">
                                             {% for field, errors in form.errors.items %}
-                                                {% for error in errors %}
-                                                    {{ error }}
-                                                {% endfor %}
+                                            {% for error in errors %}
+                                            {{ error }}
+                                            {% endfor %}
                                             {% endfor %}
                                         </div>
                                         {% endif %}
@@ -35,6 +35,9 @@
                                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                                             <button type="submit" class="btn btn-primary btn-lg">Войти</button>
                                         </div>
+                                        <p class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">Восстановить
+                                            пароль</p>
+                                        <a class="d-flex justify-content-center mb-lg-3 dropdown-item " href="{% url 'password_reset' %}">Изменить пароль</a>
                                         <p class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">или продолжите
                                             через</p>
                                         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">

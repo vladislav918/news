@@ -1,13 +1,24 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse, reverse_lazy
 from django.views.generic import DetailView
 
 from .forms import CommentForm, NewsForms
 from .models import Category, Comment, News
 
 User = get_user_model()
+
+
+def blog_post_like(request, slug):
+    post = get_object_or_404(News, id=request.POST.get('blogpost_id'))
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+    else:
+        post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('one_post', args=[slug]))
 
 
 def get_all_posts(request):
@@ -72,18 +83,25 @@ class ShowOnePost(DetailView):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
-            return redirect('one_news/')
+            return redirect(request.path)
+        else:
+            return redirect('/')
 
     def get_context_data(self, **kwargs):
-        post_comments_count = Comment.objects.all().filter(post=self.object.id).count()
         post_comments = Comment.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)
+        likes_connected = get_object_or_404(News, slug=self.kwargs['slug'])
+        liked = False
+        if likes_connected.likes.filter(id=self.request.user.id).exists():
+            liked = True
         context.update({
             'form': self.form,
             'post_comments': post_comments,
-            'post_comments_count': post_comments_count,
+            'post_is_liked': liked,
+            'number_of_likes': likes_connected.number_of_likes(),
         })
         return context
+
 
 @login_required(login_url='/users/register')
 def add_post(request):
