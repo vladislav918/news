@@ -44,4 +44,5 @@ jobs:
         EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
         USER: ${{ secrets.USER_DB }}
       run: |
+        python manage.py makemigrations
         python manage.py test
