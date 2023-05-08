@@ -1,7 +1,7 @@
 from django.urls import include, re_path, path
 
 from .views import ChangeProfile, LoginUser, \
-    MyPasswordResetConfirmView, MySignupView, Register, activate_account
+    MyPasswordResetConfirmView, MySignupView, Register, activate_account, user_profile
 
 urlpatterns = [
     path('register/', Register.as_view(), name='register'),
@@ -13,5 +13,6 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('', include('django.contrib.auth.urls')),
     path('change_profile/<int:pk>/', ChangeProfile.as_view(), name='change_profile'),
+    path('user_profile/<int:pk>/', user_profile, name='user_profile'),
     path('', include("allauth.urls")),
 ]

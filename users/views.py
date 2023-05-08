@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from posts.models import News
 from .forms import ChangeProfile, LoginUserForm, MySetPasswordForm, MySignupForm, RegisterUserForm
 from .token import account_activation_token
 
@@ -89,3 +90,15 @@ class ChangeProfile(LoginRequiredMixin, UpdateView):
 class MySignupView(SignupView):
     template_name = 'registration/signup_google.html'
     form_class = MySignupForm
+
+
+def user_profile(request, pk):
+    user = User.objects.get(id=pk)
+    count_posts = News.objects.filter(author=user).count()
+    all_posts = News.objects.filter(author=user)
+    content = {
+        'user': user,
+        'count_posts': count_posts,
+        'all_posts': all_posts,
+    }
+    return render(request, 'registration/user_profile.html', context=content)
