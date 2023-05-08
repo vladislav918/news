@@ -84,8 +84,6 @@ class ShowOnePost(DetailView):
             form.instance.post = post
             form.save()
             return redirect(request.path)
-        else:
-            return redirect('/')
 
     def get_context_data(self, **kwargs):
         post_comments = Comment.objects.all().filter(post=self.object.id)
