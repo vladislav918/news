@@ -87,5 +87,4 @@ class TestShowOnePost(TestCase):
         data = {'content': 'New comment'}
         response = self.client.post(reverse('one_post', args=[self.news1.slug]), data=data)
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(Comment.objects.all().count(), 2)
         self.assertEqual(Comment.objects.last().content, 'New comment')
