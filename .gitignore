@@ -3,10 +3,10 @@
 *.pyc
 **/__pycache__/
 local_settings.py
-db.sqlite3
 /photos/
 .idea/
 .env
+
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*

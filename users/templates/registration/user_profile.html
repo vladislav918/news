@@ -1,5 +1,7 @@
 {% extends 'posts/base.html' %}
 
+{% block title %} Профиль {% endblock %}
+
 {% block content %}
 <section class=" h-100 gradient-custom-2">
     <div class="container py-5 h-100">
@@ -8,17 +10,17 @@
                 <div class="card">
                     <div class="rounded-top text-white d-flex flex-row" style="background-color: orange; height:200px;">
                         <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                            {% if user.avatar %}
-                            <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-4"
-                                 style="width: 300px; z-index: 1" src="{{ user.avatar.url }}"/>
+                            {% if user1.avatar %}
+                                <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-4"
+                                 style="width: 300px; z-index: 1" src="{{ user1.avatar.url }}"/>
                             {% else %}
-                            <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
                                  style="width: 180px; z-index: 1"
                                  src="/photos/system_photo/istockphoto-1300845620-612x612.jpg">
                             {% endif %}
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
-                            <h5>{{ user.username }}</h5>
+                            <h5>{{ user1.username }}</h5>
                         </div>
                     </div>
                     <div class="p-4 text-black" style="background-color: #f8f9fa;">
@@ -40,7 +42,7 @@
                         </div>
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <p class="lead fw-normal mb-0">Посты</p>
-                            <p class="mb-0"><a href="#!" class="text-muted">Показать всеl</a></p>
+                            <p class="mb-0"><a href="#!" class="text-muted">Показать все</a></p>
                         </div>
                         <div class="row g-2">
                             {% for fields in all_posts %}

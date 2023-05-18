@@ -1,14 +1,15 @@
 from django.contrib.auth import get_user_model, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetConfirmView
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from django.views import View
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.views.generic import UpdateView
 from django.core.mail import EmailMessage
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.utils.encoding import force_bytes
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -92,12 +93,12 @@ class MySignupView(SignupView):
     form_class = MySignupForm
 
 
-def user_profile(request, pk):
-    user = User.objects.get(id=pk)
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
     count_posts = News.objects.filter(author=user).count()
     all_posts = News.objects.filter(author=user)
     content = {
-        'user': user,
+        'user1': user,
         'count_posts': count_posts,
         'all_posts': all_posts,
     }

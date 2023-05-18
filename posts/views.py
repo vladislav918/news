@@ -26,9 +26,9 @@ def get_all_posts(request):
     if search_list:
         news = News.objects.filter(
             title__icontains=search_list
-        )
+        ).select_related('category')
     else:
-        news = News.objects.all()
+        news = News.objects.filter(is_published=True).select_related('category')
 
     categories = Category.objects.all()
     paginator = Paginator(news, 5)
@@ -50,18 +50,15 @@ def get_all_posts(request):
 def get_category(request, category_id):
     news = News.objects.filter(
         category_id=category_id
-    )
+    ).select_related('author', 'category')
+
     categories = Category.objects.all()
-    category = Category.objects.get(
-        pk=category_id
-    )
     paginator = Paginator(news, 5)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     content = {
         'news': news,
         'categories': categories,
-        'category': category,
         'page_obj': page_obj,
     }
     return render(
@@ -76,6 +73,9 @@ class ShowOnePost(DetailView):
     model = News
     form = CommentForm
 
+    def get_queryset(self):
+        return super().get_queryset().select_related('author')
+
     def post(self, request, *args, **kwargs):
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -86,9 +86,9 @@ class ShowOnePost(DetailView):
             return redirect(request.path)
 
     def get_context_data(self, **kwargs):
-        post_comments = Comment.objects.all().filter(post=self.object.id)
+        post_comments = Comment.objects.filter(post=self.object.id).only('id', 'content', 'user')
         context = super().get_context_data(**kwargs)
-        likes_connected = get_object_or_404(News, slug=self.kwargs['slug'])
+        likes_connected = get_object_or_404(News.objects.prefetch_related('likes'), slug=self.kwargs['slug'])
         liked = False
         if likes_connected.likes.filter(id=self.request.user.id).exists():
             liked = True

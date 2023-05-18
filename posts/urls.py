@@ -7,6 +7,6 @@ urlpatterns = [
     path('category/<int:category_id>/', get_category, name='category'),
     path('category/<slug:slug>/', ShowOnePost.as_view(), name='one_post'),
     path('add_post/', add_post, name='new'),
-    path('category/<slug:slug>', blog_post_like, name='blogpost_like'),
+    path('category/<slug:slug>/', blog_post_like, name='blogpost_like'),
 
 ]

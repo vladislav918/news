@@ -79,7 +79,7 @@
                     <strong>{{ user.username|truncatechars:15 }}</strong>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'change_profile' pk=user.id %}"><i class="fas fa-edit fa-2x"></i></a>
+                    <a class="dropdown-item" href="{% url 'change_profile' user.pk %}"><i class="fas fa-edit fa-2x"></i></a>
                     <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-trash-alt fa-2x"></i></a>
                 </div>
             </div>

@@ -11,8 +11,8 @@ urlpatterns = [
     path('social/signup/', MySignupView.as_view(template_name='registration/signup_google.html'),
          name='account_signup'),
     path('reset/<uidb64>/<token>/', MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('', include('django.contrib.auth.urls')),
+    path('user_profile/<str:username>/', user_profile, name='user_profile'),
     path('change_profile/<int:pk>/', ChangeProfile.as_view(), name='change_profile'),
-    path('user_profile/<int:pk>/', user_profile, name='user_profile'),
+    path('', include('django.contrib.auth.urls')),
     path('', include("allauth.urls")),
 ]

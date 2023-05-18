@@ -27,7 +27,7 @@
                             <div class="col">
                                 <a style="text-decoration: none !important;
                                     color: black !important;"
-                                   href="{% url 'user_profile' item.author.pk %}">
+                                   href="{% url 'user_profile' item.author.username %}">
                                     {{ item.author.username }}</a> <img
                                     style="border-radius: 50%" width="50" height="50"
                                     src="{{ item.author.avatar.url }}"/>

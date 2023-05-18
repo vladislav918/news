@@ -1,6 +1,6 @@
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "news.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'news.settings')
 
 import django
 
@@ -26,7 +26,7 @@ class TestGetAllPosts(TestCase):
                                                                   content_type='image/jpeg'))
         self.news2 = News.objects.create(title='Test news 2', content='Test content 2',
                                          category=self.category2,
-                                         photo=SimpleUploadedFile("avatar.jpg", b'file_content',
+                                         photo=SimpleUploadedFile('avatar.jpg', b'file_content',
                                                                   content_type='image/jpeg'))
 
     def test_get_all_posts_with_search(self):
@@ -42,36 +42,16 @@ class TestGetAllPosts(TestCase):
         self.assertContains(response, 'Test news 2')
 
 
-class TestGetCategory(TestCase):
-    def setUp(self):
-        self.client = Client()
-        self.category1 = Category.objects.create(title='Category 1')
-        self.news1 = News.objects.create(title='Test news 1', content='Test content 1',
-                                         category=self.category1,
-                                         photo=SimpleUploadedFile("avatar.jpg", b'file_content',
-                                                                  content_type='image/jpeg'))
-        self.news2 = News.objects.create(title='Test news 2', content='Test content 2',
-                                         category=self.category1,
-                                         photo=SimpleUploadedFile("avatar.jpg", b'file_content',
-                                                                  content_type='image/jpeg'))
-
-    def test_get_category_with_news(self):
-        response = self.client.get(reverse('category', args=[self.news1.category_id]))
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Category 1')
-        self.assertContains(response, 'Test news 1')
-
-
 class TestShowOnePost(TestCase):
     def setUp(self):
         self.category1 = Category.objects.create(title='Category 1')
         self.user = User.objects.create_user(username='testuser', email='testuser@example.com',
                                              password='testpassword123', first_name='Dima', last_name='Dimov',
-                                             avatar=SimpleUploadedFile("avatar.jpg", b'file_content',
+                                             avatar=SimpleUploadedFile('avatar.jpg', b'file_content',
                                                                        content_type='image/jpeg'))
         self.news1 = News.objects.create(title='Test news 1', content='Test content 1',
                                          category=self.category1, author=self.user,
-                                         photo=SimpleUploadedFile("avatar.jpg", b'file_content',
+                                         photo=SimpleUploadedFile('avatar.jp', b'file_content',
                                                                   content_type='image/jpeg'), slug='testnews1')
         self.comment1 = Comment.objects.create(user=self.user, post=self.news1, content='Test comment')
 

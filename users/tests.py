@@ -5,8 +5,6 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "news.settings")
 import django
 
 django.setup()
-
-from users.forms import LoginUserForm
 from django.test import TestCase, Client
 from django.urls import reverse
 

@@ -23,15 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 'django-insecure-qihuf8ut#ut@0=gpy_z8o_-beu5-x3vzf72j7u34qt5%f@bog-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-DEBUG_PROPAGATE_EXCEPTIONS = True
-
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -54,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.vk',
     'captcha',
     'fontawesomefree',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'news.urls'
@@ -95,7 +94,7 @@ DATABASES = {
         'NAME': 'news',
         'USER': config('USER'),
         'PASSWORD': config('PASSWORD'),
-        'HOST': '127.0.0.1',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -178,3 +177,8 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }
 }
+
+#debug-toolbar
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
