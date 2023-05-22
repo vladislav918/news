@@ -5,7 +5,6 @@
 {% block content %}
 
 <form method="post">
-    {% csrf_token %}
     <section class="vh-100">
         <div class="container h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -19,6 +18,7 @@
                                     {% if form.errors %}
                                     <div class="alert alert-danger">
                                         {% for field, errors in form.errors.items %}
+                                            {% csrf_token %}
                                             {% for error in errors %}
                                                 {{ error }}
                                             {% endfor %}
@@ -26,6 +26,7 @@
                                     </div>
                                     {% endif %}
                                     {% for fields in form %}
+                                        {% csrf_token %}
                                         <div class="d-flex flex-row align-items-center mb-4">
                                             <i class="fas fa-lg me-3 fa-fw"></i>
                                             <div class="form-outline flex-fill mb-0">

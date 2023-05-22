@@ -6,7 +6,7 @@ from .views import ChangeProfile, LoginUser, \
 urlpatterns = [
     path('register/', Register.as_view(), name='register'),
     path('login/', LoginUser.as_view(template_name='registration/login.html'), name='login'),
-    re_path(r'actative/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
+    path('actative/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',
          activate_account, name='activate'),
     path('social/signup/', MySignupView.as_view(template_name='registration/signup_google.html'),
          name='account_signup'),

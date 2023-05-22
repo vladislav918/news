@@ -4,6 +4,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
+from django.views import View
 from django.views.generic import DetailView
 from .forms import CommentForm, NewsForms
 from .models import Category, Comment, News
@@ -20,51 +21,53 @@ def blog_post_like(request, slug):
     return HttpResponseRedirect(reverse('one_post', args=[slug]))
 
 
-def get_all_posts(request):
-    search_list = request.GET.get('search', '')
-    if search_list:
+class AllPosts(View):
+    def get(self, request):
+        search_list = request.GET.get('search', '')
+        if search_list:
+            news = News.objects.filter(
+                title__icontains=search_list
+            ).select_related('category')
+        else:
+            news = News.objects.filter(is_published=True).select_related('category')
+
+        categories = Category.objects.all()
+        paginator = Paginator(news, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        content = {
+            'news': news,
+            'categories': categories,
+            'page_obj': page_obj,
+        }
+        return render(
+            request,
+            'posts/home.html',
+            context=content
+        )
+
+
+class CategoryView(View):
+    def get(self, request, category_id):
         news = News.objects.filter(
-            title__icontains=search_list
-        ).select_related('category')
-    else:
-        news = News.objects.filter(is_published=True).select_related('category')
+            category_id=category_id
+        ).select_related('author', 'category')
 
-    categories = Category.objects.all()
-    paginator = Paginator(news, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-
-    content = {
-        'news': news,
-        'categories': categories,
-        'page_obj': page_obj,
-    }
-    return render(
-        request,
-        'posts/home.html',
-        context=content
-    )
-
-
-def get_category(request, category_id):
-    news = News.objects.filter(
-        category_id=category_id
-    ).select_related('author', 'category')
-
-    categories = Category.objects.all()
-    paginator = Paginator(news, 5)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    content = {
-        'news': news,
-        'categories': categories,
-        'page_obj': page_obj,
-    }
-    return render(
-        request,
-        'posts/category.html',
-        context=content
-    )
+        categories = Category.objects.all()
+        paginator = Paginator(news, 5)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        content = {
+            'news': news,
+            'categories': categories,
+            'page_obj': page_obj,
+        }
+        return render(
+            request,
+            'posts/category.html',
+            context=content
+        )
 
 
 class ShowOnePost(DetailView):
@@ -102,23 +105,22 @@ class ShowOnePost(DetailView):
         return context
 
 
-@login_required(login_url='/users/register')
-def add_post(request):
-    if request.method == 'POST':
+class AddPost(View):
+    template_name = 'posts/new_news.html'
+
+    def get(self, request):
+        context = {
+            'form': NewsForms
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
         form = NewsForms(request.POST, request.FILES)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.save()
             return redirect('home')
-
-    else:
-        form = NewsForms
-    return render(
-        request,
-        'posts/new_news.html',
-        context={'form': form}
-    )
 
 
 def error_404(request, exception):
