@@ -3,9 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.views.generic import DetailView
-
 from .forms import CommentForm, NewsForms
 from .models import Category, Comment, News
 
@@ -88,7 +87,9 @@ class ShowOnePost(DetailView):
     def get_context_data(self, **kwargs):
         post_comments = Comment.objects.filter(post=self.object.id).only('id', 'content', 'user')
         context = super().get_context_data(**kwargs)
-        likes_connected = get_object_or_404(News.objects.prefetch_related('likes'), slug=self.kwargs['slug'])
+        likes_connected = get_object_or_404(
+            News.objects.prefetch_related('likes'), slug=self.kwargs['slug']
+        )
         liked = False
         if likes_connected.likes.filter(id=self.request.user.id).exists():
             liked = True

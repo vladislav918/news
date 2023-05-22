@@ -21,7 +21,6 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-blend-mode: multiply;
-
         }
         mt-6 {
             margin-top: 4rem;
@@ -38,14 +37,10 @@
             border-spacing: 0;
             boder: 0;
         }
-
         table td {
             padding: 0;
             margin: 0;
         }
-
-
-
     </style>
 </head>
 <body>
@@ -57,35 +52,33 @@
                 <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Главная</a>
             </li>
             {% if request.user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'new' %}">Добавить статью</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'new' %}">Добавить статью</a>
+                </li>
             {% endif %}
         </ul>
-        <div class="container d-flex justify-content-center align-items-center" style="width: 600px">
-            <form class="d-flex" role="search" action="{% url 'home' %}">
+        <form class="d-flex" role="search" action="{% url 'home' %}">
+            <div class="container d-flex justify-content-center align-items-center" style="width: 600px">
                 <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search"
                        name="search">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </div>
+                <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
         <div class="navbar-text ms-auto">
             {% if request.user.is_authenticated %}
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <strong>{{ user.username|truncatechars:15 }}</strong>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="{% url 'change_profile' user.pk %}"><i class="fas fa-edit fa-2x"></i></a>
-                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-trash-alt fa-2x"></i></a>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <strong>{{ user.username|truncatechars:15 }}</strong>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{% url 'change_profile' user.pk %}"><i class="fas fa-edit fa-2x"></i></a>
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-trash-alt fa-2x"></i></a>
+                    </div>
                 </div>
-            </div>
             {% else %}
-            <a style="text-decoration: none;" href="{% url 'register' %}">Регистрация</a>
-            <a style="text-decoration: none;word-spacing: 55px;" href="{% url 'login' %}">Войти</a>
+                <a style="text-decoration: none;" href="{% url 'register' %}">Регистрация</a>
+                <a style="text-decoration: none;word-spacing: 55px;" href="{% url 'login' %}">Войти</a>
             {% endif %}
         </div>
     </div>

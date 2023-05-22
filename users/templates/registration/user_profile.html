@@ -3,20 +3,17 @@
 {% block title %} Профиль {% endblock %}
 
 {% block content %}
-<section class=" h-100 gradient-custom-2">
+<section class="h-100 gradient-custom-2">
     <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center ">
+        <div class="row d-flex justify-content-center align-items-center">
             <div class="col-12 col-md-8 col-lg-6 col-xl-7">
                 <div class="card">
                     <div class="rounded-top text-white d-flex flex-row" style="background-color: orange; height:200px;">
                         <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
                             {% if user1.avatar %}
-                                <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-4"
-                                 style="width: 300px; z-index: 1" src="{{ user1.avatar.url }}"/>
+                                <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-4" style="width: 300px; z-index: 1" src="{{ user1.avatar.url }}"/>
                             {% else %}
-                                <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                                 style="width: 180px; z-index: 1"
-                                 src="/photos/system_photo/istockphoto-1300845620-612x612.jpg">
+                                <img alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 180px; z-index: 1" src="/photos/system_photo/istockphoto-1300845620-612x612.jpg">
                             {% endif %}
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
@@ -46,10 +43,9 @@
                         </div>
                         <div class="row g-2">
                             {% for fields in all_posts %}
-                                <div class="card mb-4 ">
+                                <div class="card mb-4">
                                     <div class="card-body media media-body">
-                                        <img src="{{ fields.photo.url }}" class="me-3 float-start" width="350" height="250"
-                                             alt="">
+                                        <img src="{{ fields.photo.url }}" class="me-3 float-start" width="350" height="250" alt="">
                                         <h5 class="card-title">{{ fields.title }}</h5>
                                         <p class="card-text">{{ fields.content|safe|linebreaks|truncatewords:25 }}</p>
                                         <a href="{{ fields.get_url }}" class="btn btn-primary">Читать далее</a>

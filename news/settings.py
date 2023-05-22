@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.vk',
     'captcha',
-    'fontawesomefree',
     'debug_toolbar',
 ]
 
