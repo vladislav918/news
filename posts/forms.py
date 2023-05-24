@@ -45,3 +45,28 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
+
+
+class ChangePosts(forms.ModelForm):
+    title = forms.CharField(
+        widget=forms.TextInput(
+            attrs={'class': 'form-control',
+                   'placeholder': 'Введите название'
+                   }
+        )
+    )
+    content = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'TextArea form-control', 'placeholder': 'Напишите подробнее'})
+    )
+    photo = forms.ImageField(
+        widget=forms.FileInput(attrs={'class': 'custom-button form-control', 'placeholder': 'Выберите фото'})
+    )
+    class Meta:
+        model = News
+        fields = ['title', 'content', 'photo', 'category']
+        labels = {
+            'title': 'Название',
+            'content': 'Описание',
+            'photo': 'Фото',
+            'category': 'Категория',
+        }

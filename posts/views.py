@@ -5,8 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse
 from django.views import View
-from django.views.generic import DetailView
-from .forms import CommentForm, NewsForms
+from django.views.generic import DetailView, UpdateView
+from .forms import CommentForm, NewsForms, ChangePosts
 from .models import Category, Comment, News
 
 User = get_user_model()
@@ -121,6 +121,12 @@ class AddPost(View):
             post.author = request.user
             post.save()
             return redirect('home')
+
+class ChangePosts(UpdateView):
+    template_name = 'posts/change_posts.html'
+    form_class = ChangePosts
+    success_url = '/'
+    model = News
 
 
 def error_404(request, exception):

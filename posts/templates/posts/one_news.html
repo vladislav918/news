@@ -20,6 +20,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="card-body media media-body">
                 <img src="{{ news.photo.url }}" class="me-3 float-start" width="350" height="250" alt="">
                 <h5 class="card-title">{{ news.title }}</h5>
@@ -39,6 +40,11 @@
             </form>
             {% endif %}
             <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+            {% if news.author == request.user  %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a class="btn btn-primary" href="{% url 'change_posts' object.slug %}" class="list-group-item list-group-item-action">Редактировать статью</a>
+                </li>
+            {% endif %}
         </div>
     </div>
     {% if request.user.is_authenticated %}
