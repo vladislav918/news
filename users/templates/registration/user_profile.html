@@ -25,9 +25,29 @@
                             <div>
                                 <p class="mb-1 h5">{{ count_posts }}</p>
                                 <p class="small text-muted mb-0">Количество постов</p>
+                                <p class="mb-1 h5">{{ subscription }}</p>
+                                <p class="small text-muted mb-0">Количество подписчиков</p>
+
                             </div>
                         </div>
                     </div>
+                    {% if request.user != user1 and request.user.is_authenticated %}
+                        {% if not request.user.subscriptions.all.exists %}
+                            <form action="{% url 'subscribe' username=user1.username %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit"><i class="fa-solid fa-bell fa-2x"></i></button>
+                            </form>
+                        {% else %}
+                            {% for subscription in request.user.subscriptions.all %}
+                                {% if user1.pk == subscription.target_user_id %}
+                                    <form action="{% url 'unsubscribe' username=user1.username %}" method="post">
+                                      {% csrf_token %}
+                                      <button type="submit"><i class="fa-solid fa-bell-slash fa-2x"></i></button>
+                                    </form>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
                     <div class="card-body p-4 text-black">
                         <div class="mb-5">
                             <p class="lead fw-normal mb-1">About</p>
@@ -37,6 +57,7 @@
                                 <p class="font-italic mb-0">Photographer</p>
                             </div>
                         </div>
+
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <p class="lead fw-normal mb-0">Посты</p>
                             <p class="mb-0"><a href="#!" class="text-muted">Показать все</a></p>

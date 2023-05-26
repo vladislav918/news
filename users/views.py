@@ -1,4 +1,6 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView, PasswordResetConfirmView
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
@@ -10,11 +12,10 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from posts.models import News
 from .forms import ChangeProfile, LoginUserForm, MySetPasswordForm, MySignupForm, RegisterUserForm
+from .models import Subscription
 from .token import account_activation_token
-
 from allauth.account.views import SignupView
 
 User = get_user_model()
@@ -95,9 +96,27 @@ def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     count_posts = News.objects.filter(author=user).count()
     all_posts = News.objects.filter(author=user)
+    subscription = user.subscribers.all().count()
     content = {
         'user1': user,
         'count_posts': count_posts,
         'all_posts': all_posts,
+        'subscription': subscription,
     }
     return render(request, 'registration/user_profile.html', context=content)
+
+
+@login_required
+def subscribe(request, username):
+    target_user = User.objects.get(username=username)
+    subscription = Subscription(subscriber=request.user, target_user=target_user)
+    subscription.save()
+    return redirect('user_profile', username=username)
+
+
+@login_required
+def unsubscribe(request, username):
+    target_user = User.objects.get(username=username)
+    subscription = Subscription.objects.get(subscriber=request.user, target_user=target_user)
+    subscription.delete()
+    return redirect('user_profile', username=username)

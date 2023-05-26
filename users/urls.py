@@ -1,7 +1,7 @@
 from django.urls import include, re_path, path
 
 from .views import ChangeProfile, LoginUser, \
-    MyPasswordResetConfirmView, MySignupView, Register, activate_account, user_profile
+    MyPasswordResetConfirmView, MySignupView, Register, activate_account, user_profile, subscribe, unsubscribe
 
 urlpatterns = [
     path('register/', Register.as_view(), name='register'),
@@ -12,6 +12,8 @@ urlpatterns = [
          name='account_signup'),
     path('reset/<uidb64>/<token>/', MyPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('user_profile/<str:username>/', user_profile, name='user_profile'),
+    path('subscribe/<str:username>/', subscribe, name='subscribe'),
+    path('unsubscribe/<str:username>/', unsubscribe, name='unsubscribe'),
     path('change_profile/<int:pk>/', ChangeProfile.as_view(), name='change_profile'),
     path('', include('django.contrib.auth.urls')),
     path('', include('allauth.urls')),

@@ -24,3 +24,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
 
+class Subscription(models.Model):
+    subscriber = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscriptions')
+    target_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='subscribers', null=True)
+
+    class Meta:
+        unique_together = ('subscriber', 'target_user')
